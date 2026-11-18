@@ -18,9 +18,9 @@ gentec_DBD += base.dbd calc.dbd asyn.dbd sscan.dbd stream.dbd AsynReg.dbd asSupp
 
 # Add all the support libraries needed by this IOC
 gentec_LIBS += calc sscan asyn stream autosave devIocStats qsrv pvData opcua utilities
-pcre_DIR += /usr/local/lib
+# PCRE_LIB is set in configure/CONFIG_SITE
+pcre_DIR += $(PCRE_LIB)
 gentec_LIBS += pcre
-gentec_LIBS += qsrv pvData
 # gentec_registerRecordDeviceDriver.cpp derives from gentec.dbd
 gentec_SRCS += gentec_registerRecordDeviceDriver.cpp
 gentec_SRCS += monitor_connection.c

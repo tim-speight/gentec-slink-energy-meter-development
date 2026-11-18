@@ -2,6 +2,8 @@ record(mbbi, "$(TFL-PREFIX):OverallStatus") {
     field(DESC, "Gentec TFLStatus")
     field(ZRST, "Disconnected")
     field(ZRVL, "0")
+    field(ONST, "Connected")
+    field(ONVL, "1")
 }
 
 record(calcout, "$(TFL-PREFIX):StatusCalc"){

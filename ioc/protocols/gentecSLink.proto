@@ -6,11 +6,11 @@ readtimeout  = 1500;
 
 # commands related to the box
 reset         { out "*RST";         }
-get_version   { out "*VER";         in "%40c"; }
+get_version   { out "*VER";         in "%39c"; }
 
 # commands related to channel
-get_name      { out "*NA\$1";       in "%40c"; }
-get_serial    { out "*SN\$1";       in "%40c"; }
+get_name      { out "*NA\$1";       in "%39c"; }
+get_serial    { out "*SN\$1";       in "%39c"; }
 get_status    { out "*ST\$1";       in ":00000%(\$2:\$3:Wavelength.VAL)4x";
                                     in ":00001%(\$2:\$3:Scale.VAL)4x";
                                     in ":00002%(\$2:\$3:TrigLev.RVAL)4x";
@@ -32,23 +32,34 @@ scale_up      { out "*SU\$1";       }
 scale_down    { out "*SD\$1";       }
 
 # commands for acquiring data
+# Streaming mode (manual p.31): ASCII all points (*SS$1001), polling mode
+# off (*VNP, global, the power-up default) so *CA$1 pushes one line per
+# laser pulse (energy head) or at 100 Hz (power head). Read by get_value_con.
 start_acq   { wait 100;
               out "*SS\$1001";
-              out "*VNM";
+              out "*VNP";
               out "*CA\$1";
             }
 
+# *VNP/*VNM are global (no channel digit, manual p.34). Sending *VNP here
+# would stop *CV polling on the other head, so stop is per channel only.
 stop_acq    { wait 100;
-              out "*VNP";
               out "*CS\$1";
 }
-get_value   { out "*CV\$1";       in "\$1:%g";  }
+# Polled single value (*VNM mode only). Not used by the IOC in streaming
+# mode; kept for diagnostics.
+get_value   { replytimeout = 250; readtimeout = 100;
+              out "*CV\$1";       in "\$1:%g";  }
 
 send_trigger  { out "*CV\$1"; }
 
-get_value_con { in "\$1:%g";  }
+# Streaming data path (I/O Intr): one line per pulse, "1:8.808e-07".
+# Each head matches only its own channel prefix; the other head's lines
+# are ignored. Short pollperiod keeps the port responsive to control writes.
+get_value_con { pollperiod = 100; readtimeout = 100;
+                in "\$1:%g";  }
 
 get_range   { out "*RG\$1";       in ":00000%4x";
                                   in ":00001%(\$2:\$3:MaxRange.VAL)4x";
                                   in ":100000000";}
-probeConnection  { out "*NA\$1";       in "%40c"; }
+probeConnection  { out "*NA\$1";       in "%39c"; }

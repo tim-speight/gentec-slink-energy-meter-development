@@ -1,5 +1,5 @@
 record(ai, "$(device):$(head):measurement") {
-    field(INP, "$(device):$(head):CalibratedValue")
+    field(INP, "$(device):$(head):CalibratedValue MS")
     field(FLNK, "$(device):$(head):statistics")
     field(DISA, "1")
 }
@@ -33,10 +33,15 @@ record(bo, "$(device):$(head):pauseable") {
 
 record(aSub, "$(device):$(head):statistics") {
     field(SNAM, "getAverage")
+    # Skip stale samples: INVALID (3) propagated from Value via MS links
+    field(SDIS, "$(device):$(head):measurement.SEVR")
+    field(DISV, "3")
     field(INPA, "$(device):$(head):measurement")
     field(FTA,  "DOUBLE")
     field(INPB, "$(device):$(head):duration")
     field(FTB,  "LONG")
+    # C: reset request, written by :reset (OUTG), cleared by getAverage
+    field(FTC,  "LONG")
     field(OUTA, "$(device):$(head):average")
     field(FTVA, "DOUBLE")
     field(OUTB, "$(device):$(head):max")
@@ -72,6 +77,8 @@ record(aSub, "$(device):$(head):reset") {
     field(FTVE, "DOUBLE")
     field(OUTF, "$(device):$(head):rms")
     field(FTVF, "DOUBLE")
+    field(OUTG, "$(device):$(head):statistics.C")
+    field(FTVG, "LONG")
     field(OUTH, "$(device):$(head):elapsedTime")
     field(FTVH, "LONG")
     field(FLNK, "$(device):$(head):average")

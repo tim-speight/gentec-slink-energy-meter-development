@@ -1,13 +1,29 @@
 #intrinsic VAL use HOPR / LOPR... CDG
+# Commissioned graphing range per head (set in iocBoot/iocgentec/head.substitutions).
+# Pushed into CalibratedValue.LOPR/HOPR so CA/PVA clients get them as display limits.
 record(ai, "$(device):$(head):GS_LOW") {
   field(DESC, "Graphing Scale low")
   field(VAL, "$(GS_LOW)")
+  field(PINI, "YES")
   field(FLNK, "$(device):$(head):WriteLOPR.PROC")
   info(autosaveFields, "VAL")
 }
 record(ai, "$(device):$(head):GS_HIGH") {
   field(DESC, "Graphing Scale high")
   field(VAL, "$(GS_HIGH)")
+  field(PINI, "YES")
   field(FLNK, "$(device):$(head):WriteHOPR.PROC")
   info(autosaveFields, "VAL")
+}
+record(ao, "$(device):$(head):WriteLOPR") {
+  field(DESC, "Push GS_LOW to display limit")
+  field(OMSL, "closed_loop")
+  field(DOL,  "$(device):$(head):GS_LOW")
+  field(OUT,  "$(device):$(head):CalibratedValue.LOPR")
+}
+record(ao, "$(device):$(head):WriteHOPR") {
+  field(DESC, "Push GS_HIGH to display limit")
+  field(OMSL, "closed_loop")
+  field(DOL,  "$(device):$(head):GS_HIGH")
+  field(OUT,  "$(device):$(head):CalibratedValue.HOPR")
 }

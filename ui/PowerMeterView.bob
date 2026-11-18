@@ -162,7 +162,7 @@ $(pv_value)</tooltip>
     <actions>
       <action type="write_pv">
         <description>StartACQ</description>
-        <pv_name>$(EM):SetAcqStateToStart.PROC</pv_name>
+        <pv_name>$(EM):StartAcquisition.PROC</pv_name>
         <value>1</value>
       </action>
     </actions>
@@ -204,7 +204,7 @@ $(pv_value)</tooltip>
     <actions>
       <action type="write_pv">
         <description>StopACQ</description>
-        <pv_name>$(EM):SetAcqStateToStop.PROC</pv_name>
+        <pv_name>$(EM):StopAcquisition.PROC</pv_name>
         <value>1</value>
       </action>
     </actions>

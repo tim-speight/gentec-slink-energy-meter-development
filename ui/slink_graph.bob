@@ -299,7 +299,7 @@ else
     <name>Action Button_3</name>
     <actions>
       <action type="write_pv">
-        <pv_name>$(EM):SetAcqStateToStop.PROC</pv_name>
+        <pv_name>$(EM):StopAcquisition.PROC</pv_name>
         <value>1</value>
         <description>StopACQ</description>
       </action>
@@ -341,7 +341,7 @@ else
     <name>Action Button_4</name>
     <actions>
       <action type="write_pv">
-        <pv_name>$(EM):SetAcqStateToStart.PROC</pv_name>
+        <pv_name>$(EM):StartAcquisition.PROC</pv_name>
         <value>1</value>
         <description>StartACQ</description>
       </action>

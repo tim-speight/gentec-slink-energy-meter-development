@@ -1,93 +1,92 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
+#include <math.h>
+#include <epicsTypes.h>
 #include <aSubRecord.h>
 #include <registryFunction.h>
 #include <epicsExport.h>
 
-unsigned int i, duration;
-unsigned long *ptr, *ptr1;
-double oldMean, avg, oldSum, newSum, std, p2p, rms, value, min, max;
+/*
+ * Running statistics for one head (Welford's algorithm).
+ * State is held per aSub record in precord->dpvt, so each head's
+ * :statistics record accumulates independently.
+ */
+typedef struct {
+    epicsUInt32 n;
+    double mean, m2, min, max;
+} statsState;
 
+/*
+ * :reset -> clears the published outputs and raises a reset request on
+ * :statistics.C (OUTG). The accumulator itself is cleared by getAverage
+ * on its next sample, so only the owning record touches its state.
+ */
 static long resetStats(aSubRecord *precord)
 {
-    if (ptr1) {
-        free(ptr1);
-        ptr1 = NULL;
-        ptr = NULL;
-    }
-    avg = max = min = p2p = std = rms = i = 0;
-    *(double *) precord -> vala = avg;
-    *(double *) precord -> valb = max;
-    *(double *) precord -> valc = min;
-    *(double *) precord -> vald = p2p;
-    *(double *) precord -> vale = std;
-    *(double *) precord -> valf = rms;
-    *(long *) precord -> valh = i;
+    *(double *) precord->vala = 0;      /* average */
+    *(double *) precord->valb = 0;      /* max */
+    *(double *) precord->valc = 0;      /* min */
+    *(double *) precord->vald = 0;      /* p2p */
+    *(double *) precord->vale = 0;      /* std */
+    *(double *) precord->valf = 0;      /* rms */
+    *(epicsInt32 *) precord->valg = 1;  /* reset request -> :statistics.C */
+    *(epicsInt32 *) precord->valh = 0;  /* elapsedTime */
     return 0;
 }
 
 static long getAverage(aSubRecord *precord)
 {
-    i++;
+    statsState *s = (statsState *) precord->dpvt;
+    double value = *(double *) precord->a;
+    epicsInt32 duration = *(epicsInt32 *) precord->b;
+    epicsInt32 *resetReq = (epicsInt32 *) precord->c;
+    double std = 0, p2p = 0, rms = 0;
 
-    //Inputs
-    value = *(double*) precord -> a;
-    duration = *(int*) precord -> b;
-    *(char *) precord -> valg = 0; //enable scan
-    *(char *) precord -> vali = 0; //enable pause
-
-    //Memory allocation
-    if(ptr == NULL) {
-        i = 1;
-        ptr = (unsigned long*) calloc(duration, sizeof(long));
-        ptr1 = ptr;
-    }
-    *ptr = value;
-
-    //max and min
-    if (i == 1 || value < min) {
-        min = value;
-    }
-    if (i == 1 || value > max) {
-        max = value;
+    if (!s) {
+        s = calloc(1, sizeof(statsState));
+        if (!s)
+            return -1;
+        precord->dpvt = s;
     }
 
-    //statistics calculations
-    if (i == 1) {
-        oldMean = avg = value;
-        oldSum = 0;
+    if (duration < 1)
+        duration = 1;
+
+    if (*resetReq) {
+        memset(s, 0, sizeof(*s));
+        *resetReq = 0;
+    }
+
+    s->n++;
+    if (s->n == 1) {
+        s->mean = s->min = s->max = value;
+        s->m2 = 0;
     } else {
-        avg = oldMean + (value - oldMean)/(float)i;
-        newSum = oldSum + (value - oldMean)*(value - avg);
+        double delta = value - s->mean;
+        s->mean += delta / s->n;
+        s->m2 += delta * (value - s->mean);
+        if (value < s->min) s->min = value;
+        if (value > s->max) s->max = value;
 
-        oldMean = avg;
-        oldSum = newSum;
-
-        std = sqrt(newSum/(i - 1));
-        p2p = ((max - min) / avg) * 100;
-        rms = (std/avg) * 100;
+        std = sqrt(s->m2 / (s->n - 1));
+        if (s->mean != 0.0) {
+            p2p = ((s->max - s->min) / s->mean) * 100;
+            rms = (std / s->mean) * 100;
+        }
     }
 
-    //Outputs
-    *(double *) precord -> vala = avg;
-    *(double *) precord -> valb = max;
-    *(double *) precord -> valc = min;
-    *(double *) precord -> vald = p2p;
-    *(double *) precord -> vale = std;
-    *(double *) precord -> valf = rms;
-    *(long *) precord -> valh = i;
+    /* Outputs */
+    *(double *) precord->vala = s->mean;
+    *(double *) precord->valb = s->max;
+    *(double *) precord->valc = s->min;
+    *(double *) precord->vald = p2p;
+    *(double *) precord->vale = std;
+    *(double *) precord->valf = rms;
+    *(epicsInt32 *) precord->valh = (epicsInt32) s->n;
 
-    //Last runthrough
-    if (i >= duration)
-    {
-        *(char *) precord -> valg = 1; //disable scan
-        *(char *) precord -> vali = 1; //disable pause
-    } else {
-        //Iterate
-        *ptr++;
-    }
+    /* Last run through: disable scan and pause */
+    *(epicsInt8 *) precord->valg = (s->n >= (epicsUInt32) duration);
+    *(epicsInt8 *) precord->vali = (s->n >= (epicsUInt32) duration);
     return 0;
 }
 

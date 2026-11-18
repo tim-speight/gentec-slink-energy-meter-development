@@ -19,7 +19,12 @@
 #
 record(bo, "$(device):$(head):Status"){
     field(DESC,"Channel status")
-    field(SCAN, "1 second")
+    # Background telemetry poll. RBVs are also refreshed at the edges:
+    # after every setter, when streaming stops and on reconnect.
+    # Suppressed while any channel streams (shared port, see slink.db).
+    field(SCAN, "$(STATUS_SCAN=5 second)")
+    field(SDIS, "$(device):Streaming")
+    field(DISV, "1")
     field(DTYP,"stream")
     field(OUT, "@gentecSLink.proto get_status($(channel),$(device),$(head)) $(port)")
     field(FLNK, "$(device):$(head):Wavelength")
@@ -30,8 +35,8 @@ record(bo, "$(device):$(head):Status"){
 # Channel wavelength 
 #
 record(longin, "$(device):$(head):Wavelength"){
+    alias("$(device):$(head):Wavelength_RBV")
     field(DESC, "Wavelength")
-    field(SCAN, "1 second")
     field(EGU,  "nm")
     field(LOPR, "0")
     field(HOPR, "100000")
@@ -61,6 +66,8 @@ record(aSub, "$(device):$(head):ScaleConvert") {
     field(OUTA, "$(device):$(head):ScaleString PP")
 }
 record(stringin, "$(device):$(head):ScaleString") {
+    # RBV for SetScale (both use the scale string, e.g. 10nJ)
+    alias("$(device):$(head):Scale_RBV")
     field(DESC, "Current Scale (readable)")
     field(INP, "$(device):$(head):ScaleConvert.VALA ")
     field(FLNK, "$(device):$(head):TrigLev")
@@ -72,13 +79,13 @@ record(scalcout, "$(device):$(head):EguSetter"){
     field(INPA, "$(device):$(head):Scale CP")
     field(CALC, "A<6?'pJ':A<12?'nJ':A<18?'μJ':A<24?'mJ':A<30?'J':A<36?'kJ':'MJ'")
     field(OUT, "$(device):$(head):ScaledValue.EGU PP")
-    field(FLNK, "$(device):$(head):EguCalc")
 }
 
 ################################################################################
 # Channel trigger level 
 #
 record(ai, "$(device):$(head):TrigLev"){
+    alias("$(device):$(head):TrigLev_RBV")
     field(DESC, "Trigger Level")
     field(DTYP, "Raw Soft Channel")
     field(LINR, "LINEAR")
@@ -103,6 +110,7 @@ record(ai, "$(device):$(head):TrigLev"){
 # Channel attenuator
 #
 record(bi, "$(device):$(head):Attenuator"){
+    alias("$(device):$(head):Attenuator_RBV")
     field(DESC, "Attenuator")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
@@ -113,6 +121,7 @@ record(bi, "$(device):$(head):Attenuator"){
 # Channel external trigger
 #
 record(bi, "$(device):$(head):ExtTrig"){
+    alias("$(device):$(head):ExtTrig_RBV")
     field(DESC, "External Trigger")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
@@ -123,6 +132,7 @@ record(bi, "$(device):$(head):ExtTrig"){
 # Channel anticipation
 #
 record(bi, "$(device):$(head):Anticipation"){
+    alias("$(device):$(head):Anticipation_RBV")
     field(DESC, "Anticipation")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
@@ -133,6 +143,7 @@ record(bi, "$(device):$(head):Anticipation"){
 # Channel energy mode
 #
 record(bi, "$(device):$(head):EnergyMode"){
+    alias("$(device):$(head):EnergyMode_RBV")
     field(DESC, "Energy Mode")
     field(ZNAM, "Disabled (Power Mode)")
     field(ONAM, "Enabled")
@@ -146,6 +157,10 @@ record(bo, "$(device):$(head):SetEnergyMode")
     field(DESC, "Energy Mode")
     field(DTYP, "stream")
     field(OUT,  "@gentecSLink.proto set_en_mode($(channel)) $(port)")
+    # Manual p.33: *EM requires acquisition stopped (*CS) first
+    field(SDIS, "$(device):$(head):DisReadingValue")
+    field(DISV, "1")
+    field(DISS, "MINOR")
     field(ZNAM, "Disabled (Power Mode)")
     field(ONAM, "Enabled")
     field(FLNK, "$(device):$(head):Status")
@@ -202,10 +217,11 @@ record(ao, "$(device):$(head):SetTrigLev")
     field(OUT,  "@gentecSLink.proto set_triglev($(channel)) $(port)")
     field(EGU,  "%")
     field(PREC, "1")
+    # *TL takes exactly 4 characters (manual p.32); 100.0 would be 5
     field(DRVL, "0.0")
-    field(DRVH, "100.0")
+    field(DRVH, "99.9")
     field(LOPR, "0.0")
-    field(HOPR, "100.0")
+    field(HOPR, "99.9")
     field(FLNK, "$(device):$(head):Status")
 }
 
@@ -217,6 +233,10 @@ record(bo, "$(device):$(head):SetExtTrig")
     field(DESC, "External Trigger")
     field(DTYP, "stream")
     field(OUT,  "@gentecSLink.proto set_exttrig($(channel)) $(port)")
+    # Manual p.33: *ET requires acquisition stopped (*CS) first
+    field(SDIS, "$(device):$(head):DisReadingValue")
+    field(DISV, "1")
+    field(DISS, "MINOR")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
     field(FLNK, "$(device):$(head):Status")
@@ -259,14 +279,22 @@ record(aSub, "$(device):$(head):SetScaleStrToInt") {
     field(FTVA, "LONG")
     field(NEVA, "1")
     field(SNAM, "energyStrToInt")
-    field(FLNK, "$(device):$(head):SendScaleIndex")
+    # Unknown string: subroutine returns non-zero, OUTA is not written,
+    # nothing is sent to the device and this record goes MINOR.
+    field(BRSV, "MINOR")
+    field(OUTA, "$(device):$(head):SendScaleIndex PP")
 }
 record(longout, "$(device):$(head):SendScaleIndex") {
     field(DESC, "Send scale index to device")
-    field(DOL, "$(device):$(head):SetScaleStrToInt.VALA")
-    field(OMSL, "closed_loop")
     field(DTYP, "stream")
     field(OUT,  "@gentecSLink.proto set_scale($(channel)) $(port)")
+    # Manual p.35: *SC requires acquisition stopped (*CS) first
+    field(SDIS, "$(device):$(head):DisReadingValue")
+    field(DISV, "1")
+    field(DISS, "MINOR")
+    field(DRVL, "0")
+    field(DRVH, "41")
+    field(FLNK, "$(device):$(head):Status")
 }
 
 ################################################################################
@@ -283,4 +311,41 @@ record(stringin, "$(device):$(head):HeadName")
 {
     field(VAL, "$(head_name)")
     field(PINI, "YES")
+}
+
+################################################################################
+# Proactive RBV refresh on asyn (re)connect: covers the device being
+# unreachable at iocInit (PINI reads fail) and any later link drop.
+#
+record(calcout, "$(device):$(head):RefreshOnConnect")
+{
+    field(DESC, "Refresh RBVs on reconnect")
+    field(INPA, "$(device):ConnectionState CP")
+    field(CALC, "A")
+    field(OOPT, "Transition To Non-zero")
+    field(OUT,  "$(device):$(head):RefreshRBV.PROC PP")
+}
+
+# Edge refresh once the port is quiet again (last streaming channel
+# stopped). ODLY lets the final in-flight data line drain first.
+record(calcout, "$(device):$(head):RefreshOnIdle")
+{
+    field(DESC, "Refresh RBVs when streaming stops")
+    field(INPA, "$(device):Streaming CP")
+    field(CALC, "A")
+    field(OOPT, "Transition To Zero")
+    field(ODLY, "0.5")
+    field(OUT,  "$(device):$(head):RefreshRBV.PROC PP")
+}
+
+record(fanout, "$(device):$(head):RefreshRBV")
+{
+    field(DESC, "Re-read device readbacks")
+    field(SDIS, "$(device):Streaming")
+    field(DISV, "1")
+    field(SELM, "All")
+    field(LNK1, "$(device):$(head):Status")
+    field(LNK2, "$(device):$(head):Name")
+    field(LNK3, "$(device):$(head):Serial")
+    field(LNK4, "$(device):$(head):MinRange")
 }

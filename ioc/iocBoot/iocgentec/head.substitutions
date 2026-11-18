@@ -1,9 +1,11 @@
 #
-# Note: the DEVICE_NAME macro, which is passed to all of the databases in this file, has the value $(PREFIX) and is substituted out in ansible-ioc-deployment process
-#       the CHAN macro, is head for the energy meter for SLINK-1 or SLINK-2 1 or 2  detector ports, multiple lines here for default vals
+# Commissioned graphing range per head. Edit GS_LOW / GS_HIGH (in CalibratedValue EGU, J) at commissioning.
+# Note: device (DEVICE_NAME, $(PREFIX) via ansible-ioc-deployment), HEAD1 and HEAD2 are passed in from st.cmd.
+#       One row per detector port on SLINK-1 / SLINK-2. Rows are always loaded; with HEADn=NOHeadn the
+#       row creates inert $(device):NOHeadn:GS_* records whose Write*PR links do not resolve.
 
 file "db/head.template" {
-  pattern {CHAN,  DEVICE_NAME,  HEAD_NAME, GS_LOW, GS_HIGH}
-          {1,       device,    head, 2,   3.5}
-          {2,       device,    head, 2,   3.5}
+  pattern {head,       GS_LOW, GS_HIGH}
+          {"$(HEAD1)", 2,      3.5}
+          {"$(HEAD2)", 2,      3.5}
 }

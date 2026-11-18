@@ -9,10 +9,31 @@ record(stringin, "$(device):FW_Version")
 
 record(stringin, "$(device):reset")
 {
-  field(DESC, "Software version")
+  field(DESC, "Device reset (*RST)")
   field(DTYP, "stream")
   field(INP, "@gentecSLink.proto reset $(port)")
   field(SCAN, "Passive")
+}
+
+# Streaming gate. Both heads share one asyn port; while any channel is in
+# *CA mode, unsolicited data lines would corrupt solicited replies (*ST,
+# *NA, *SN, *RG), so per-head polls/refreshes are disabled on Streaming=1.
+# StreamChN are written by each head's DisReadingValue.
+record(longout, "$(device):StreamCh1") {
+  field(DESC, "Channel 1 streaming")
+  field(FLNK, "$(device):Streaming")
+}
+
+record(longout, "$(device):StreamCh2") {
+  field(DESC, "Channel 2 streaming")
+  field(FLNK, "$(device):Streaming")
+}
+
+record(calc, "$(device):Streaming") {
+  field(DESC, "Any channel streaming (*CA)")
+  field(INPA, "$(device):StreamCh1")
+  field(INPB, "$(device):StreamCh2")
+  field(CALC, "A||B")
 }
 
 record(bi, "$(device):ConnectionState") {

@@ -16,6 +16,10 @@
 #   continue building anyway if conflicts are found.
 CHECK_RELEASE = YES
 
+# Location of libpcre (needed by StreamDevice regex support).
+# Override per host in CONFIG_SITE.$(EPICS_HOST_ARCH).Common if different.
+PCRE_LIB = /usr/local/lib
+
 # Set this when you only want to compile this application
 #   for a subset of the cross-compiled target architectures
 #   that Base is built for.

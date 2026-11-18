@@ -11,22 +11,31 @@ record(mbbo, "$(device):$(head):AcquisitionState"){
     field(TWST, "Started")
     field(VAL,"0")
     field(PINI,"YES")
+    field(FLNK, "$(device):$(head):DisReadingValue")
 }
 
 ################################################################################
-# Start Acquisition
+# Start Acquisition (streaming, manual p.31)
+# Order matters: state -> Streaming gate raised (solicited reads on the
+# shared port suppressed) -> then *CA sent by SendStartAcq.
 #
 record(bo, "$(device):$(head):StartAcquisition")
 {
     field(DESC, "Start")
-    field(DTYP, "stream")
-    field(OUT,  "@gentecSLink.proto start_acq($(channel)) $(port)")
     field(FLNK, "$(device):$(head):SetAcqStateToStart")
 }
 
-record(bo, "$(device):$(head):SetAcqStateToStart") {
+record(longout, "$(device):$(head):SetAcqStateToStart") {
     field(VAL, "2")
     field(OUT, "$(device):$(head):AcquisitionState PP")
+    field(FLNK, "$(device):$(head):SendStartAcq")
+}
+
+record(bo, "$(device):$(head):SendStartAcq")
+{
+    field(DESC, "Send *SS/*VNP/*CA")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto start_acq($(channel)) $(port)")
 }
 
 ################################################################################
@@ -38,19 +47,41 @@ record(ai, "$(device):$(head):Value")
     field(EGU,  "$(egu=J)")
     field(PREC, "4")
     field(DTYP, "stream")
-    field(INP,  "@gentecSLink.proto get_value($(channel)) $(port)")
-    field(SCAN, "1 second")
-    field(DISV, "0")
-    field(SDIS, "$(device):$(head):DisReadingValue")
-    field(FLNK,"$(device):$(head):CalibratedValue")
+    # One process per laser pulse: the datum arrives unsolicited on the
+    # ASCII stream the instant the laser hits the head (*CA mode).
+    field(INP,  "@gentecSLink.proto get_value_con($(channel)) $(port)")
+    field(SCAN, "I/O Intr")
+    field(FLNK,"$(device):$(head):RangeFraction")
 }
 
-# disable reading value
-record(calc, "$(device):$(head):DisReadingValue"){
+# 1 while this head is Started. Gates the *CS-only setters on this head and
+# publishes this channel's state to the device-level $(device):Streaming gate.
+record(calcout, "$(device):$(head):DisReadingValue"){
     field(INPA, "$(device):$(head):AcquisitionState")
     field(CALC, "A  == 2 ? 1 : 0")
-    field(SCAN,".1 second")
+    field(OOPT, "Every Time")
+    field(OUT,  "$(device):StreamCh$(channel) PP")
+    field(PINI, "YES")
+}
 
+################################################################################
+# Over-metering / saturation: raw reading as a fraction of the selected range
+# full scale. Full scale derived from the Scale index ladder used by
+# scale_mapper.c (index 0 = 1pJ; 1,3,10,30,100,300 per decade triple).
+#
+record(calc, "$(device):$(head):RangeFraction") {
+    field(DESC, "Reading / range full scale")
+    field(INPA, "$(device):$(head):Value MS")
+    field(INPB, "$(device):$(head):Scale")
+    field(CALC, "A/((B%6=0?1:B%6=1?3:B%6=2?10:B%6=3?30:B%6=4?100:300)*10^(3*FLOOR(B/6)-12))")
+    field(PREC, "3")
+    field(LOPR, "0")
+    field(HOPR, "1.2")
+    field(HIGH, "$(RANGE_HIGH=0.9)")
+    field(HIHI, "$(RANGE_HIHI=1.0)")
+    field(HSV,  "MINOR")
+    field(HHSV, "MAJOR")
+    field(FLNK, "$(device):$(head):CalibratedValue")
 }
 
 record(ai, "$(device):$(head):MultiplierFactor") {
@@ -68,8 +99,7 @@ record(ai, "$(device):$(head):OffsetFactor") {
 } 
 
 record(calc, "$(device):$(head):CalibratedValue") {
-    field(SCAN, "1 second")
-    field(INPA, "$(device):$(head):Value")
+    field(INPA, "$(device):$(head):Value MS")
     field(INPB,"$(device):$(head):MultiplierFactor")
     field(INPC, "$(device):$(head):OffsetFactor")
     field(EGU,  "$(egu=J)")
@@ -78,9 +108,10 @@ record(calc, "$(device):$(head):CalibratedValue") {
 }
 
 record(calc, "$(device):$(head):ScaledValue") {
-    field(SCAN, "1 second")
-    field(INPA,"$(device):$(head):Scale CP")
-    field(INPB, "$(device):$(head):CalibratedValue CP")
+    # Processed only via FLNK from CalibratedValue: one sample in, one
+    # sample to :measurement/:statistics.
+    field(INPA,"$(device):$(head):Scale")
+    field(INPB, "$(device):$(head):CalibratedValue MS")
     field(INPC,"1000000000000")
     field(INPD,"1000000000")
     field(INPE,"1000000")
@@ -96,12 +127,14 @@ record(calc, "$(device):$(head):ScaledValue") {
 # Stop Acquisition
 #
 record(bo, "$(device):$(head):StopAcquisition"){
-    field(DESC, "Start")
+    field(DESC, "Stop")
     field(DTYP, "stream")
     field(OUT,  "@gentecSLink.proto stop_acq($(channel)) $(port)")
     field(FLNK, "$(device):$(head):SetAcqStateToStop")
 }
 
+# *CS is sent first (StopAcquisition), then the gate drops. RBVs are
+# refreshed by RefreshOnIdle once no channel is streaming.
 record(bo, "$(device):$(head):SetAcqStateToStop") {
     field(VAL, "1")
     field(OUT, "$(device):$(head):AcquisitionState PP")
@@ -150,9 +183,13 @@ record(longin, "$(device):$(head):MaxRange"){
 # Scale Up
 #
 record(bo, "$(device):$(head):ScaleUp"){
-    field(DESC, "Start")
+    field(DESC, "Scale up")
     field(DTYP, "stream")
     field(OUT,  "@gentecSLink.proto scale_up($(channel)) $(port)")
+    # Manual p.33: *SU requires acquisition stopped (*CS) first
+    field(SDIS, "$(device):$(head):DisReadingValue")
+    field(DISV, "1")
+    field(DISS, "MINOR")
     field(FLNK, "$(device):$(head):Status")
 }
 
@@ -160,8 +197,12 @@ record(bo, "$(device):$(head):ScaleUp"){
 # Scale Down
 #
 record(bo, "$(device):$(head):ScaleDown"){
-    field(DESC, "Start")
+    field(DESC, "Scale down")
     field(DTYP, "stream")
     field(OUT,  "@gentecSLink.proto scale_down($(channel)) $(port)")
+    # Manual p.33: *SD requires acquisition stopped (*CS) first
+    field(SDIS, "$(device):$(head):DisReadingValue")
+    field(DISV, "1")
+    field(DISS, "MINOR")
     field(FLNK, "$(device):$(head):Status")
 }

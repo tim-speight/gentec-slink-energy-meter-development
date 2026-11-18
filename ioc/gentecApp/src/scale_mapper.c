@@ -1,4 +1,5 @@
 #include <string.h>
+#include <epicsTypes.h>
 #include <aSubRecord.h>
 #include <registryFunction.h>
 #include <epicsExport.h>
@@ -20,12 +21,13 @@ static const char *keys[] = {
 
 /// 🔁 Function 1: Convert integer to string
 long energyIntToStr(aSubRecord *precord)  {
-long idx = (precord->a ? *((long*)precord->a) : -1);
+    /* FTA=LONG is epicsInt32 (4 bytes); 'long' is 8 bytes on linux-x86_64 */
+    epicsInt32 idx = (precord->a ? *((epicsInt32 *)precord->a) : -1);
 
     char *outstr = (char *)precord->vala;
     if(!outstr) return -1;
 
-    if(idx >= 0 && idx < NUM_KEYS) {
+    if(idx >= 0 && (size_t)idx < NUM_KEYS) {
         strcpy(outstr, keys[idx]);
     } else {
         strcpy(outstr, "INVALID");
@@ -35,18 +37,19 @@ long idx = (precord->a ? *((long*)precord->a) : -1);
 /// 🔁 Function 2: Convert string to index
 long energyStrToInt(aSubRecord *precord) {
     char *instr = (char *)precord->a;
-    long *outidx = (long *)precord->vala;
+    epicsInt32 *outidx = (epicsInt32 *)precord->vala;
 
     if(!instr || !outidx) return -1;
 
-    for(int idx=0; idx < NUM_KEYS; idx++) {
+    for(int idx=0; idx < (int)NUM_KEYS; idx++) {
         if(strcmp(instr, keys[idx]) == 0) {
             *outidx = idx;
             return 0;
         }
     }
-    *outidx = -1; // Not found 
-    return 0;
+    /* Not found: non-zero return stops the aSub writing OUTA, so no
+     * scale command is sent to the device. BRSV raises the alarm. */
+    return -1;
 }
 
 // Register both with EPICS
