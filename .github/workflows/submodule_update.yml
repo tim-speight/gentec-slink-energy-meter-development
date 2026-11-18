@@ -1,0 +1,45 @@
+name: Send submodule updates to parent repo
+
+on:
+  push:
+    branches:
+      - development_dipole #NOTE: if you are adding this action to a new repo you may need to change this branch name
+
+env:
+  PARENT_REPO_NAME: CentralLaserFacility/dipole-production #NOTE: you may need to change the parent repo
+  PARENT_REPO_BRANCH: development #NOTE: you may need to change the parent repo branch
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout ${{ github.event.repository.name }}
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
+
+      - name: Checkout ${{ env.PARENT_REPO_NAME }}
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ env.PARENT_REPO_NAME }}
+          submodules: 'true'
+          ref: ${{ env.PARENT_REPO_BRANCH }}
+          token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
+          fetch-depth: 0
+
+      #NOTE: you must change energy_meter to the name of the submodule you are using - it must be the name as it appears on the parent repo NOT the repository name
+      - name: Get submodule updates
+        run: |
+          cd energy_meter
+          git fetch --all
+          git switch ${{ github.ref_name }}
+
+      - name: Commit and push the changes to ${{ env.PARENT_REPO_NAME }}
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions - update submodules"
+          git add --all
+          git commit -m "Auto-update: ${{ github.event.repository.name }}" -m "Automatic update triggered by a push to the ${{ github.ref_name }} branch of the ${{ github.event.repository.name }} submodule repo." || echo "No changes to commit"
+          git push

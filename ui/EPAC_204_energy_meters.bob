@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-08-06 09:14:39 by epacdiag1-->
+<display version="2.0.0">
+  <width>860</width>
+  <height>380</height>
+  <background_color>
+    <color red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="embedded" version="2.0.0">
+    <name>Em1_head1</name>
+    <macros>
+      <EM>E1:FE-204-PSO-3-D-EM-1</EM>
+      <DEVICE>E1</DEVICE>
+    </macros>
+    <file>energy_meter_select_single.bob</file>
+    <x>12</x>
+    <y>84</y>
+    <width>640</width>
+    <height>54</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>EM3_head2</name>
+    <macros>
+      <EM>E3:FE-204-EC-2-D-EM-1</EM>
+      <DEVICE>E3</DEVICE>
+    </macros>
+    <file>energy_meter_select_single.bob</file>
+    <x>12</x>
+    <y>300</y>
+    <width>640</width>
+    <height>54</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>EM2_head1</name>
+    <macros>
+      <EM>E2:FE-204-NSO-D-P4-EM-1</EM>
+      <DEVICE>E2</DEVICE>
+    </macros>
+    <file>energy_meter_select_single.bob</file>
+    <x>12</x>
+    <y>138</y>
+    <width>640</width>
+    <height>54</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>EM3_head1</name>
+    <macros>
+      <EM>E2:FE-204-NSO-D-P0-PB-EM-1</EM>
+      <DEVICE>E2</DEVICE>
+    </macros>
+    <file>energy_meter_select_single.bob</file>
+    <x>12</x>
+    <y>192</y>
+    <width>640</width>
+    <height>54</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>EM3_head2</name>
+    <macros>
+      <EM>E3:FE-204-EC-EM-1</EM>
+      <DEVICE>E3</DEVICE>
+    </macros>
+    <file>energy_meter_select_single.bob</file>
+    <x>12</x>
+    <y>246</y>
+    <width>640</width>
+    <height>54</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>EM-1</text>
+    <x>672</x>
+    <y>102</y>
+    <width>38</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>E1-TFL:OverallStatus</pv_name>
+    <x>726</x>
+    <y>102</y>
+    <off_label>Disconnected</off_label>
+    <on_label>Connected</on_label>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>EM-2</text>
+    <x>672</x>
+    <y>138</y>
+    <width>38</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_1</name>
+    <pv_name>E2-TFL:OverallStatus</pv_name>
+    <x>726</x>
+    <y>138</y>
+    <off_label>Disconnected</off_label>
+    <on_label>Connected</on_label>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>EM-3</text>
+    <x>672</x>
+    <y>174</y>
+    <width>38</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_2</name>
+    <pv_name>E3-TFL:OverallStatus</pv_name>
+    <x>726</x>
+    <y>174</y>
+    <off_label>Disconnected</off_label>
+    <on_label>Connected</on_label>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>EPAC 2.04 Gentec sLink-2 EnergyMeters</text>
+    <x>12</x>
+    <y>12</y>
+    <width>734</width>
+    <height>48</height>
+    <font>
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+</display>

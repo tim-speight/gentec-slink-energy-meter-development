@@ -1,0 +1,9 @@
+#
+# Note: the DEVICE_NAME macro, which is passed to all of the databases in this file, has the value $(PREFIX) and is substituted out in ansible-ioc-deployment process
+#       the CHAN macro, is head for the energy meter for SLINK-1 or SLINK-2 1 or 2  detector ports, multiple lines here for default vals
+
+file "db/head.template" {
+  pattern {CHAN,  DEVICE_NAME,  HEAD_NAME, GS_LOW, GS_HIGH}
+          {1,       device,    head, 2,   3.5}
+          {2,       device,    head, 2,   3.5}
+}

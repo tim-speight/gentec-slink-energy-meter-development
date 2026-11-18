@@ -1,0 +1,22 @@
+name: Build and Release IOC on PR merged 
+
+on: 
+    pull_request: 
+      types: [closed] 
+      branches:
+        - main 
+
+
+jobs: 
+
+  build-and-release-ioc: 
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' 
+    uses: CentralLaserFacility/CLF-github-actions/.github/workflows/build-and-release-ioc.yml@main 
+    secrets: 
+        app_key: ${{ secrets.SOFTWARE_CONTROL_CI_AUTH_APP_KEY }} 
+        sudo_pass: ${{ secrets.SOFTWARE_CONTROL_SUDO_PASS_BUILD_02 }} 
+    with: 
+        ioc_repo_name: ${{ github.event.repository.name }} 
+        runner: ${{vars.SOFTWARE_CONTROL_LINUX_RUNNER_01}} 
+        custom_version: ${{ github.event.pull_request.title }} 
+        

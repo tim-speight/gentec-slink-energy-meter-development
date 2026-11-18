@@ -1,0 +1,23 @@
+record(stringin, "$(device):FW_Version")
+{
+  field(PINI, "YES")
+  field(DESC, "Software version")
+  field(DTYP, "stream")
+  field(INP, "@gentecSLink.proto get_version $(port)")
+  field(SCAN, "Passive")
+}
+
+record(stringin, "$(device):reset")
+{
+  field(DESC, "Software version")
+  field(DTYP, "stream")
+  field(INP, "@gentecSLink.proto reset $(port)")
+  field(SCAN, "Passive")
+}
+
+record(bi, "$(device):ConnectionState") {
+  field(ZSV, "MAJOR")
+  field(ZNAM, "Disconnected")
+  field(ONAM, "Connected")
+  field(INP, "$(device):asyn.CNCT")
+}

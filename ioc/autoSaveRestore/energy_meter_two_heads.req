@@ -1,0 +1,2 @@
+file "head.req",	head=$(HEAD1)
+file "head.req",	head=$(HEAD2)

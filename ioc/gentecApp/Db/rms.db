@@ -1,0 +1,101 @@
+record(ai, "$(device):$(head):measurement") {
+    field(INP, "$(device):$(head):CalibratedValue")
+    field(FLNK, "$(device):$(head):statistics")
+    field(DISA, "1")
+}
+
+record(longin, "$(device):$(head):duration") {
+    field(VAL, "180000") #5 hours at 10hz
+    field(LOPR, "1") #Duration can't be 0 or negative
+    field(HOPR, "864000") #24 hours at 10hz
+}
+
+#edit state of the duration text box
+record(bo, "$(device):$(head):editable") {
+    field(VAL, "0")
+    field(ZNAM, "editable")
+    field(ONAM, "uneditable")
+}
+
+#the disabled state of the start button
+record(bo, "$(device):$(head):startable") {
+    field(VAL, "0")
+    field(ZNAM, "startable")
+    field(ONAM, "unstartable")
+}
+
+#the disabled state of the pause button
+record(bo, "$(device):$(head):pauseable") {
+    field(VAL, "1")
+    field(ZNAM, "pauseable")
+    field(ONAM, "unpauseable")
+}
+
+record(aSub, "$(device):$(head):statistics") {
+    field(SNAM, "getAverage")
+    field(INPA, "$(device):$(head):measurement")
+    field(FTA,  "DOUBLE")
+    field(INPB, "$(device):$(head):duration")
+    field(FTB,  "LONG")
+    field(OUTA, "$(device):$(head):average")
+    field(FTVA, "DOUBLE")
+    field(OUTB, "$(device):$(head):max")
+    field(FTVB, "DOUBLE")
+    field(OUTC, "$(device):$(head):min")
+    field(FTVC, "DOUBLE")
+    field(OUTD, "$(device):$(head):p2p")
+    field(FTVD, "DOUBLE")
+    field(OUTE, "$(device):$(head):std")
+    field(FTVE, "DOUBLE")
+    field(OUTF, "$(device):$(head):rms")
+    field(FTVF, "DOUBLE")
+    field(OUTG, "$(device):$(head):measurement.DISA")
+    field(FTVG, "CHAR")
+    field(OUTH, "$(device):$(head):elapsedTime")
+    field(FTVH, "LONG")
+    field(OUTI, "$(device):$(head):pauseable")
+    field(FTVI, "CHAR")
+    field(FLNK, "$(device):$(head):average")
+}
+
+record(aSub, "$(device):$(head):reset") {
+    field(SNAM, "resetStats")
+    field(OUTA, "$(device):$(head):average")
+    field(FTVA, "DOUBLE")
+    field(OUTB, "$(device):$(head):max")
+    field(FTVB, "DOUBLE")
+    field(OUTC, "$(device):$(head):min")
+    field(FTVC, "DOUBLE")
+    field(OUTD, "$(device):$(head):p2p")
+    field(FTVD, "DOUBLE")
+    field(OUTE, "$(device):$(head):std")
+    field(FTVE, "DOUBLE")
+    field(OUTF, "$(device):$(head):rms")
+    field(FTVF, "DOUBLE")
+    field(OUTH, "$(device):$(head):elapsedTime")
+    field(FTVH, "LONG")
+    field(FLNK, "$(device):$(head):average")
+}
+
+#Outputs from statistics
+record(ai, "$(device):$(head):average") {
+    field(FLNK, "$(device):$(head):max")
+}
+record(ai, "$(device):$(head):max") {
+    field(FLNK, "$(device):$(head):min")
+}
+record(ai, "$(device):$(head):min") {
+    field(FLNK, "$(device):$(head):p2p")
+}
+record(ai, "$(device):$(head):p2p") {
+    field(FLNK, "$(device):$(head):std")
+}
+record(ai, "$(device):$(head):std") {
+    field(FLNK, "$(device):$(head):rms")
+}
+record(ai, "$(device):$(head):rms") {
+    field(FLNK, "$(device):$(head):elapsedTime")
+}
+record(ai, "$(device):$(head):elapsedTime") {
+    field(FLNK, "$(device):$(head):pauseable")
+}

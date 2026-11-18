@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-09-23 15:46:56 by epacdiag1-->
+<display version="2.0.0">
+  <name>Energy Meter: $(EM)</name>
+  <width>640</width>
+  <height>240</height>
+  <background_color>
+    <color red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Energy Meter: $(EM)</text>
+    <width>213</width>
+    <height>25</height>
+    <font>
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <auto_size>true</auto_size>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>$(DEVICE):ConnectionState</pv_name>
+    <y>192</y>
+    <off_color>
+      <color name="Major" red="255" green="0" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="Blink when OFF" prop_id="off_color" out_exp="false">
+        <exp bool_exp="pv0 == 0 &amp;&amp; pv1 == 0">
+          <value>
+            <color red="175" green="128" blue="128">
+            </color>
+          </value>
+        </exp>
+        <exp bool_exp="pv0 == 0 &amp;&amp; pv1 == 1">
+          <value>
+            <color name="Major" red="255" green="0" blue="0">
+            </color>
+          </value>
+        </exp>
+        <pv_name>$(pv_name)</pv_name>
+        <pv_name>sim://ramp(0,1,0.5)</pv_name>
+      </rule>
+    </rules>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Connection to Device</text>
+    <x>24</x>
+    <y>192</y>
+    <width>145</width>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="open_display">
+        <description>Open Display</description>
+        <file>PowerMeterSetup.opi</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Settings</text>
+    <x>533</x>
+    <y>185</y>
+    <width>80</width>
+    <height>34</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Value</name>
+    <macros>
+      <pv_name></pv_name>
+    </macros>
+    <text>###### </text>
+    <y>35</y>
+    <width>613</width>
+    <height>139</height>
+    <font>
+      <font family="Segoe UI" style="REGULAR" size="47.524752475247524">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <transparent>false</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="EmbeddedJs">
+        <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var value = PVUtil.getDouble(pvs[0]);
+var scale = PVUtil.getDouble(pvs[1]);
+
+var scaleFactor = 1;
+
+if (scale <= 6) {
+	scaleFactor = 1000000000000;
+} else if (scale <= 12) {
+	scaleFactor = 1000000000;
+} else if (scale <= 17) {
+	scaleFactor = 1000000;
+} else if (scale <= 23) {
+	scaleFactor = 1000;
+} else if (scale <= 29) {
+	scaleFactor = 1;
+} else if (scale <= 33) {
+	scaleFactor = 0.001
+}
+
+var result = value * scaleFactor;
+
+widget.setPropertyValue("text", result.toFixed(3));]]></text>
+        <pv_name>$(EM):CalibratedValue</pv_name>
+        <pv_name>$(EM):Scale</pv_name>
+        <pv_name>sim://ramp(0,1,0.1)</pv_name>
+      </script>
+    </scripts>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_1</name>
+    <actions>
+      <action type="write_pv">
+        <description>StartACQ</description>
+        <pv_name>$(EM):SetAcqStateToStart.PROC</pv_name>
+        <value>1</value>
+      </action>
+    </actions>
+    <text>▶</text>
+    <x>270</x>
+    <y>186</y>
+    <width>42</width>
+    <height>42</height>
+    <rules>
+      <rule name="Colourize" prop_id="background_color" out_exp="false">
+        <exp bool_exp="pv0==1">
+          <value>
+            <color name="Button_Background" red="210" green="210" blue="210">
+            </color>
+          </value>
+        </exp>
+        <exp bool_exp="pv0==2">
+          <value>
+            <color name="Read_Background" red="240" green="240" blue="240">
+            </color>
+          </value>
+        </exp>
+        <pv_name>$(EM):AcquisitionState.VAL</pv_name>
+      </rule>
+    </rules>
+    <tooltip>$(actions)</tooltip>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_2</name>
+    <x>342</x>
+    <y>174</y>
+    <width>1</width>
+    <height>1</height>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_3</name>
+    <actions>
+      <action type="write_pv">
+        <description>StopACQ</description>
+        <pv_name>$(EM):SetAcqStateToStop.PROC</pv_name>
+        <value>1</value>
+      </action>
+    </actions>
+    <text>▪</text>
+    <x>330</x>
+    <y>186</y>
+    <width>42</width>
+    <height>42</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="36.0">
+      </font>
+    </font>
+    <background_color>
+      <color name="Read_Background" red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <rules>
+      <rule name="Colourize" prop_id="background_color" out_exp="false">
+        <exp bool_exp="pv0==1">
+          <value>
+            <color name="Read_Background" red="240" green="240" blue="240">
+            </color>
+          </value>
+        </exp>
+        <exp bool_exp="pv0==2">
+          <value>
+            <color name="Button_Background" red="210" green="210" blue="210">
+            </color>
+          </value>
+        </exp>
+        <pv_name>$(EM):AcquisitionState.VAL</pv_name>
+      </rule>
+    </rules>
+    <tooltip>$(actions)</tooltip>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_5</name>
+    <actions>
+      <action type="open_display">
+        <description>Graph</description>
+        <file>slink_graph.bob</file>
+        <target>replace</target>
+      </action>
+    </actions>
+    <x>438</x>
+    <y>186</y>
+    <width>80</width>
+    <height>34</height>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Units</name>
+    <pv_name>$(EM):CalibratedValue.EGU</pv_name>
+    <x>450</x>
+    <y>35</y>
+    <width>163</width>
+    <height>139</height>
+    <font>
+      <font family="Segoe UI" style="REGULAR" size="47.524752475247524">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>4</precision>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="EmbeddedJs">
+        <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var pv0 = PVUtil.getDouble(pvs[0]);
+if(pv0>35)
+	widget.setPropertyValue("text","MJ");
+else if(pv0>29)
+	widget.setPropertyValue("text","kJ");
+else if(pv0>23)
+	widget.setPropertyValue("text","J");
+else if(pv0>17)
+	widget.setPropertyValue("text","mJ");
+else if(pv0>11)
+	widget.setPropertyValue("text","µJ");
+else if(pv0>5)
+	widget.setPropertyValue("text","nJ");
+else 
+	widget.setPropertyValue("text","pJ");
+]]></text>
+        <pv_name>$(EM):CalibratedValue.EGU</pv_name>
+        <pv_name>sim://ramp(0,1,0.1)</pv_name>
+      </script>
+    </scripts>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+</display>

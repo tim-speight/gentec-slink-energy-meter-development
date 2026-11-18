@@ -1,0 +1,286 @@
+# gentec channel database
+# Database for Gentec S-Link Power & Energy Monitor
+#
+# substitutions:
+# head  - head name
+# port    - asyn port
+# channel - channel (1/2)
+# egu     - engineering unit (J/W)
+
+################################################################################
+# Channel Status - reads:
+#   Wavelength
+#   Scale
+#   Trigger Level
+#   Attenuator setting
+#   External trigger setting
+#   Anticipation
+#   Energy mode
+#
+record(bo, "$(device):$(head):Status"){
+    field(DESC,"Channel status")
+    field(SCAN, "1 second")
+    field(DTYP,"stream")
+    field(OUT, "@gentecSLink.proto get_status($(channel),$(device),$(head)) $(port)")
+    field(FLNK, "$(device):$(head):Wavelength")
+    field(PINI, "YES")
+}
+
+################################################################################
+# Channel wavelength 
+#
+record(longin, "$(device):$(head):Wavelength"){
+    field(DESC, "Wavelength")
+    field(SCAN, "1 second")
+    field(EGU,  "nm")
+    field(LOPR, "0")
+    field(HOPR, "100000")
+    field(LOLO, "-1")
+    field(LOW,  "0")
+    field(LLSV, "MAJOR")
+    field(LSV,  "MINOR")
+    field(FLNK, "$(device):$(head):Scale")
+}
+
+################################################################################
+# Channel scale 
+#
+
+record(longin, "$(device):$(head):Scale") {
+    field(DESC, "Raw scale index from device")
+    field(FLNK, "$(device):$(head):ScaleConvert")
+}
+
+record(aSub, "$(device):$(head):ScaleConvert") {
+    field(DESC, "Convert index to scale string")
+    field(INPA, "$(device):$(head):Scale")
+    field(FTA,  "LONG")
+    field(FTVA, "STRING")
+    field(NEVA, 1)
+    field(SNAM, "energyIntToStr")
+    field(OUTA, "$(device):$(head):ScaleString PP")
+}
+record(stringin, "$(device):$(head):ScaleString") {
+    field(DESC, "Current Scale (readable)")
+    field(INP, "$(device):$(head):ScaleConvert.VALA ")
+    field(FLNK, "$(device):$(head):TrigLev")
+
+}
+
+record(scalcout, "$(device):$(head):EguSetter"){
+    field(DESC, "Unit for scale value")
+    field(INPA, "$(device):$(head):Scale CP")
+    field(CALC, "A<6?'pJ':A<12?'nJ':A<18?'μJ':A<24?'mJ':A<30?'J':A<36?'kJ':'MJ'")
+    field(OUT, "$(device):$(head):ScaledValue.EGU PP")
+    field(FLNK, "$(device):$(head):EguCalc")
+}
+
+################################################################################
+# Channel trigger level 
+#
+record(ai, "$(device):$(head):TrigLev"){
+    field(DESC, "Trigger Level")
+    field(DTYP, "Raw Soft Channel")
+    field(LINR, "LINEAR")
+    field(ESLO, "0.048828125")
+    field(EOFF, "0")
+    field(EGU,  "%")
+    field(PREC, "1")
+    field(LOPR, "0.0")
+    field(HOPR, "100.0")
+    field(LOW,  "0")
+    field(HIGH, "100")
+    field(LOLO, "-0.1")
+    field(HIHI, "100.1")
+    field(LSV,  "MINOR")
+    field(HSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    field(HHSV, "MAJOR")
+    field(FLNK, "$(device):$(head):Attenuator")
+}
+
+################################################################################
+# Channel attenuator
+#
+record(bi, "$(device):$(head):Attenuator"){
+    field(DESC, "Attenuator")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(FLNK, "$(device):$(head):ExtTrig")
+}
+
+################################################################################
+# Channel external trigger
+#
+record(bi, "$(device):$(head):ExtTrig"){
+    field(DESC, "External Trigger")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(FLNK, "$(device):$(head):Anticipation")
+}
+
+################################################################################
+# Channel anticipation
+#
+record(bi, "$(device):$(head):Anticipation"){
+    field(DESC, "Anticipation")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(FLNK, "$(device):$(head):EnergyMode")
+}
+
+################################################################################
+# Channel energy mode
+#
+record(bi, "$(device):$(head):EnergyMode"){
+    field(DESC, "Energy Mode")
+    field(ZNAM, "Disabled (Power Mode)")
+    field(ONAM, "Enabled")
+}
+
+################################################################################
+# Energy Mode
+#
+record(bo, "$(device):$(head):SetEnergyMode")
+{
+    field(DESC, "Energy Mode")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto set_en_mode($(channel)) $(port)")
+    field(ZNAM, "Disabled (Power Mode)")
+    field(ONAM, "Enabled")
+    field(FLNK, "$(device):$(head):Status")
+}
+
+################################################################################
+# Enable/Disable Attenuator
+#
+record(bo, "$(device):$(head):SetAttenuator")
+{
+    field(DESC, "Attenuator")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto set_atten($(channel)) $(port)")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(FLNK, "$(device):$(head):Status")
+}
+
+################################################################################
+# Enable/Disable Anticipation
+#
+record(bo, "$(device):$(head):SetAnticipation")
+{
+    field(DESC, "Anticipation")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto set_antic($(channel)) $(port)")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(FLNK, "$(device):$(head):Status")
+}
+
+################################################################################
+# Wavelength
+#
+record(longout, "$(device):$(head):SetWavelength") 
+{
+    field(DESC, "Wavelength")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto set_wavelen($(channel)) $(port)")
+    field(EGU,  "nm")
+    field(LOPR, "0")
+    field(HOPR, "100000")
+    field(DRVL, "0")
+    field(FLNK, "$(device):$(head):Status")
+}
+
+################################################################################
+# Trigger Level
+#
+record(ao, "$(device):$(head):SetTrigLev")
+{
+    field(DESC, "Trigger Level")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto set_triglev($(channel)) $(port)")
+    field(EGU,  "%")
+    field(PREC, "1")
+    field(DRVL, "0.0")
+    field(DRVH, "100.0")
+    field(LOPR, "0.0")
+    field(HOPR, "100.0")
+    field(FLNK, "$(device):$(head):Status")
+}
+
+################################################################################
+# Enable/Disable External Trigger
+#
+record(bo, "$(device):$(head):SetExtTrig")
+{
+    field(DESC, "External Trigger")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto set_exttrig($(channel)) $(port)")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(FLNK, "$(device):$(head):Status")
+}
+
+################################################################################
+# Detector Name
+#
+record(stringin, "$(device):$(head):Name") 
+{
+    field(DESC, "Detector Name")
+    field(DTYP, "stream")
+    field(INP,  "@gentecSLink.proto get_name($(channel)) $(port)")
+    field(PINI, "YES")
+}
+
+################################################################################
+# Detector Serial Number
+#
+record(stringin, "$(device):$(head):Serial") 
+{
+    field(DESC, "Serial Number")
+    field(DTYP, "stream")
+    field(INP,  "@gentecSLink.proto get_serial($(channel)) $(port)")
+    field(PINI, "YES")
+}
+
+################################################################################
+# Scale
+
+
+record(stringout, "$(device):$(head):SetScale") {
+    field(DESC, "User-set scale string (e.g. 10nJ)")
+    field(FLNK, "$(device):$(head):SetScaleStrToInt")
+}
+record(aSub, "$(device):$(head):SetScaleStrToInt") {
+    field(DESC, "Convert scale string to int index")
+    field(INPA, "$(device):$(head):SetScale")    # Comes from stringout
+     field(FTA, "STRING")
+    field(FTVA, "LONG")
+    field(NEVA, "1")
+    field(SNAM, "energyStrToInt")
+    field(FLNK, "$(device):$(head):SendScaleIndex")
+}
+record(longout, "$(device):$(head):SendScaleIndex") {
+    field(DESC, "Send scale index to device")
+    field(DOL, "$(device):$(head):SetScaleStrToInt.VALA")
+    field(OMSL, "closed_loop")
+    field(DTYP, "stream")
+    field(OUT,  "@gentecSLink.proto set_scale($(channel)) $(port)")
+}
+
+################################################################################
+# Assign values of SetScale with Scale after IOC Init to restore autosave value
+#
+record(calcout, "$(device):$(head):SetScaleInit") 
+{
+    field(CALC, "a")
+    field(INPA, "$(device):$(head):Scale")
+    field(OUT, "$(device):$(head):SetScale PP")
+}
+
+record(stringin, "$(device):$(head):HeadName")
+{
+    field(VAL, "$(head_name)")
+    field(PINI, "YES")
+}

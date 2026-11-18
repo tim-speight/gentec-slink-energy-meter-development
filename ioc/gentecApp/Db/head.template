@@ -1,0 +1,13 @@
+#intrinsic VAL use HOPR / LOPR... CDG
+record(ai, "$(device):$(head):GS_LOW") {
+  field(DESC, "Graphing Scale low")
+  field(VAL, "$(GS_LOW)")
+  field(FLNK, "$(device):$(head):WriteLOPR.PROC")
+  info(autosaveFields, "VAL")
+}
+record(ai, "$(device):$(head):GS_HIGH") {
+  field(DESC, "Graphing Scale high")
+  field(VAL, "$(GS_HIGH)")
+  field(FLNK, "$(device):$(head):WriteHOPR.PROC")
+  info(autosaveFields, "VAL")
+}

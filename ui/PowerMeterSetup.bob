@@ -1,0 +1,1084 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-09-17 14:52:11 by epacdiag1-->
+<display version="2.0.0">
+  <name>Energy Meter: $(EM) - Settings</name>
+  <width>600</width>
+  <height>380</height>
+  <background_color>
+    <color red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label</name>
+    <text>Energy Meter: $(EM) - Settings</text>
+    <y>18</y>
+    <width>607</width>
+    <height>33</height>
+    <font>
+      <font family="arial" style="BOLD" size="15.841584158415841">
+      </font>
+    </font>
+    <background_color>
+      <color red="255" green="128" blue="255">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_5</name>
+    <text>Attenuator</text>
+    <x>323</x>
+    <y>80</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_1</name>
+    <pv_name>$(EM):Name</pv_name>
+    <x>431</x>
+    <y>201</y>
+    <width>165</width>
+    <foreground_color>
+      <color red="0" green="0" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_2</name>
+    <text>Detector Name</text>
+    <x>323</x>
+    <y>202</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_3</name>
+    <text>Serial Number</text>
+    <x>323</x>
+    <y>230</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_2</name>
+    <pv_name>$(EM):Serial</pv_name>
+    <x>431</x>
+    <y>228</y>
+    <width>165</width>
+    <foreground_color>
+      <color red="0" green="0" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_4</name>
+    <text>Software Version</text>
+    <x>323</x>
+    <y>256</y>
+    <width>109</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>$(DEVICE):FW_Version</pv_name>
+    <x>431</x>
+    <y>254</y>
+    <width>165</width>
+    <foreground_color>
+      <color red="0" green="0" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>$(EM):Attenuator</pv_name>
+    <x>425</x>
+    <y>78</y>
+    <off_color>
+      <color red="128" green="128" blue="175">
+      </color>
+    </off_color>
+    <on_color>
+      <color red="0" green="0" blue="255">
+      </color>
+    </on_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_7</name>
+    <text>Anticipation</text>
+    <x>323</x>
+    <y>107</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_1</name>
+    <pv_name>$(EM):Anticipation</pv_name>
+    <x>425</x>
+    <y>105</y>
+    <off_color>
+      <color red="128" green="128" blue="175">
+      </color>
+    </off_color>
+    <on_color>
+      <color red="0" green="0" blue="255">
+      </color>
+    </on_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_8</name>
+    <text>Wavelength</text>
+    <x>1</x>
+    <y>257</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="spinner" version="2.0.0">
+    <name>Spinner_1</name>
+    <pv_name>$(EM):SetWavelength</pv_name>
+    <x>204</x>
+    <y>255</y>
+    <width>80</width>
+    <format>0</format>
+    <precision>2</precision>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <minimum>-1.7976931348623157E308</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>$(EM):Wavelength</pv_name>
+    <x>101</x>
+    <y>255</y>
+    <width>80</width>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_9</name>
+    <text>Trigger Level</text>
+    <y>225</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="spinner" version="2.0.0">
+    <name>Spinner_1</name>
+    <pv_name>$(EM):SetTrigLev</pv_name>
+    <x>204</x>
+    <y>223</y>
+    <width>80</width>
+    <format>0</format>
+    <precision>2</precision>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <minimum>-1.7976931348623157E308</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <increment>0.1</increment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_10</name>
+    <text>External Trigger</text>
+    <x>323</x>
+    <y>134</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_2</name>
+    <pv_name>$(EM):ExtTrig</pv_name>
+    <x>425</x>
+    <y>132</y>
+    <off_color>
+      <color red="128" green="128" blue="175">
+      </color>
+    </off_color>
+    <on_color>
+      <color red="0" green="0" blue="255">
+      </color>
+    </on_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_11</name>
+    <text>Energy Mode</text>
+    <x>323</x>
+    <y>162</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_3</name>
+    <pv_name>$(EM):EnergyMode</pv_name>
+    <x>425</x>
+    <y>160</y>
+    <off_color>
+      <color red="128" green="128" blue="175">
+      </color>
+    </off_color>
+    <on_color>
+      <color red="0" green="0" blue="255">
+      </color>
+    </on_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo_1</name>
+    <pv_name>$(EM):SetAttenuator</pv_name>
+    <x>468</x>
+    <y>75</y>
+    <width>80</width>
+    <height>27</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo_3</name>
+    <pv_name>$(EM):SetAnticipation</pv_name>
+    <x>468</x>
+    <y>102</y>
+    <width>80</width>
+    <height>27</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo_2</name>
+    <pv_name>$(EM):SetExtTrig</pv_name>
+    <x>468</x>
+    <y>129</y>
+    <width>80</width>
+    <height>27</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo</name>
+    <pv_name>$(EM):SetEnergyMode</pv_name>
+    <x>468</x>
+    <y>157</y>
+    <width>80</width>
+    <height>27</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_13</name>
+    <text>Scale</text>
+    <y>195</y>
+    <width>40</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_3</name>
+    <actions>
+      <action type="write_pv">
+        <description>WritePV</description>
+        <pv_name>$(EM):StartAcquisition.PROC</pv_name>
+        <value>1</value>
+      </action>
+    </actions>
+    <text>Start Acquisition</text>
+    <x>1</x>
+    <y>322</y>
+    <width>133</width>
+    <height>25</height>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_15</name>
+    <pv_name>$(EM):TrigLev</pv_name>
+    <x>101</x>
+    <y>223</y>
+    <width>80</width>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_19</name>
+    <text>Calibrated Value</text>
+    <y>60</y>
+    <width>116</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>txtValue</name>
+    <pv_name>$(EM):CalibratedValue</pv_name>
+    <y>80</y>
+    <width>181</width>
+    <height>33</height>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Input_2</name>
+    <pv_name>$(EM):OffsetFactor</pv_name>
+    <x>204</x>
+    <y>163</y>
+    <width>80</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_20</name>
+    <text>Multiplier Factor</text>
+    <y>135</y>
+    <width>116</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_21</name>
+    <text>Offset Factor</text>
+    <x>1</x>
+    <y>165</y>
+    <width>70</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_4</name>
+    <actions>
+      <action type="write_pv">
+        <description>WritePV</description>
+        <pv_name>$(EM):StopAcquisition.PROC</pv_name>
+        <value>1</value>
+      </action>
+    </actions>
+    <text>Stop Acquisition</text>
+    <x>139</x>
+    <y>322</y>
+    <width>133</width>
+    <height>25</height>
+    <rules>
+      <rule name="DisableWhenUndefinedOrStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 == 0 || pv0 == 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 != 0 &amp;&amp; pv0 != 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Text Update_23</name>
+    <macros>
+      <pv_name></pv_name>
+    </macros>
+    <text>######</text>
+    <x>101</x>
+    <y>193</y>
+    <width>80</width>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <transparent>false</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="EmbeddedJs">
+        <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil); 
+var pv0 = PVUtil.getDouble(pvs[0]);
+
+
+var values = [  "1p","3p","10p","30p","100p","300p",
+                "1n","3n","10n","30n","100n","300n",
+                "1u","3u","10u","30u","100u","300u",
+                "1m","3m","10m","30m","100m","300m",
+                "1","3","10","30","100","300",
+                "1k","3k","10k","30k","100k","300k",
+                "1meg","3meg","10meg","30meg","100meg","300meg"]
+
+
+widget.setPropertyValue("text",values[pv0]);]]></text>
+        <pv_name>$(EM):Scale</pv_name>
+        <pv_name>sim://ramp(0,1,0.1)</pv_name>
+      </script>
+    </scripts>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Input_3</name>
+    <pv_name>$(EM):MultiplierFactor</pv_name>
+    <x>204</x>
+    <y>133</y>
+    <width>80</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_24</name>
+    <pv_name>$(EM):MultiplierFactor</pv_name>
+    <x>101</x>
+    <y>133</y>
+    <width>80</width>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_25</name>
+    <pv_name>$(EM):OffsetFactor</pv_name>
+    <x>101</x>
+    <y>163</y>
+    <width>80</width>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_5</name>
+    <actions execute_as_one="true">
+      <action type="open_display">
+        <description>Open Display</description>
+        <file>PowerMeterView.opi</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>View</text>
+    <x>204</x>
+    <y>84</y>
+    <width>80</width>
+    <height>25</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>EDM Label_22</name>
+    <text>Acquisition State</text>
+    <x>1</x>
+    <y>289</y>
+    <width>95</width>
+    <height>16</height>
+    <background_color>
+      <color name="Disconn/Invalid" red="67" green="63" blue="61">
+      </color>
+    </background_color>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color name="Black" red="67" green="63" blue="61">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_26</name>
+    <pv_name>$(EM):AcquisitionState</pv_name>
+    <x>101</x>
+    <y>287</y>
+    <width>183</width>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_27</name>
+    <x>144</x>
+    <y>80</y>
+    <width>37</width>
+    <height>33</height>
+    <foreground_color>
+      <color red="127" green="127" blue="127">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>4</precision>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="EmbeddedJs">
+        <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var pv0 = PVUtil.getDouble(pvs[0]);
+if(pv0>35)
+	widget.setPropertyValue("text","MJ");
+else if(pv0>29)
+	widget.setPropertyValue("text","kJ");
+else if(pv0>23)
+	widget.setPropertyValue("text","J");
+else if(pv0>17)
+	widget.setPropertyValue("text","mJ");
+else if(pv0>11)
+	widget.setPropertyValue("text","µJ");
+else if(pv0>5)
+	widget.setPropertyValue("text","nJ");
+else 
+	widget.setPropertyValue("text","pJ");
+]]></text>
+        <pv_name>$(EM):Scale</pv_name>
+        <pv_name>sim://ramp(0,1,0.1)</pv_name>
+      </script>
+    </scripts>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_6</name>
+    <actions>
+      <action type="write_pv">
+        <description>ScaleUp</description>
+        <pv_name>$(EM):ScaleUp.PROC</pv_name>
+        <value>1</value>
+      </action>
+    </actions>
+    <text>▲</text>
+    <x>202</x>
+    <y>190</y>
+    <width>37</width>
+    <height>25</height>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <tooltip>Up</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_7</name>
+    <actions>
+      <action type="write_pv">
+        <description>ScaleDown</description>
+        <pv_name>$(EM):ScaleDown.PROC</pv_name>
+        <value>1</value>
+      </action>
+    </actions>
+    <text>▼</text>
+    <x>247</x>
+    <y>190</y>
+    <width>37</width>
+    <height>25</height>
+    <rules>
+      <rule name="EnableWhenStopped" prop_id="enabled" out_exp="true">
+        <exp bool_exp="pv0 != 1">
+          <expression>false</expression>
+        </exp>
+        <exp bool_exp="pv0 == 1">
+          <expression>true</expression>
+        </exp>
+        <pv_name>$(EM):AcquisitionState</pv_name>
+      </rule>
+    </rules>
+    <tooltip>Down</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_8</name>
+    <actions execute_as_one="true">
+      <action type="open_display">
+        <description>Open Display</description>
+        <file>statsView.opi</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Statistics</text>
+    <x>277</x>
+    <y>322</y>
+    <width>133</width>
+    <height>25</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <confirm_message></confirm_message>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_9</name>
+    <actions execute_as_one="true">
+      <action type="write_pv">
+        <description>WritePV</description>
+        <pv_name>$(EM):StopAcquisition.PROC</pv_name>
+        <value>1</value>
+      </action>
+      <action type="write_pv">
+        <description>WritePV</description>
+        <pv_name>$(DEVICE):reset.PROC</pv_name>
+        <value>1</value>
+      </action>
+    </actions>
+    <text>Reset Device</text>
+    <x>417</x>
+    <y>322</y>
+    <width>133</width>
+    <height>25</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <show_confirm_dialog>true</show_confirm_dialog>
+    <confirm_message>Are you sure you want to reset?</confirm_message>
+  </widget>
+</display>

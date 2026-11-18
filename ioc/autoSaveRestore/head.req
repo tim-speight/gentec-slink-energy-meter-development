@@ -1,0 +1,7 @@
+#Must Generate these files now with DEVICE_NAME/HEAD_NAME...
+$(head):MultiplierFactor
+$(head):OffsetFactor
+$(head):SetTrigLev
+$(head):SetScale
+$(head):SetWavelength
+$(head):Name

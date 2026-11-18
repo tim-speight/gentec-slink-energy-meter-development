@@ -1,0 +1,54 @@
+# Stream Device Protocol for the Gentec S-Link Power & Energy Monitor. Revised from Pete Owens
+
+terminator   = CR LF;
+replytimeout = 1000;
+readtimeout  = 1500;
+
+# commands related to the box
+reset         { out "*RST";         }
+get_version   { out "*VER";         in "%40c"; }
+
+# commands related to channel
+get_name      { out "*NA\$1";       in "%40c"; }
+get_serial    { out "*SN\$1";       in "%40c"; }
+get_status    { out "*ST\$1";       in ":00000%(\$2:\$3:Wavelength.VAL)4x";
+                                    in ":00001%(\$2:\$3:Scale.VAL)4x";
+                                    in ":00002%(\$2:\$3:TrigLev.RVAL)4x";
+                                    in ":00003%*4x";
+                                    in ":00004000%(\$2:\$3:Attenuator.VAL){0|1}";
+                                    in ":00005000%(\$2:\$3:ExtTrig.VAL){0|1}";
+                                    in ":00006000%(\$2:\$3:Anticipation.VAL){0|1}";
+                                    in ":00007000%(\$2:\$3:EnergyMode.VAL){0|1}";
+                                    in ":100000000";}
+
+set_en_mode   { out "*EM\$1%{0|1}"; }
+set_atten     { out "*AT\$1%{0|1}"; }
+set_antic     { out "*AN\$1%{0|1}"; }
+set_wavelen   { out "*PW\$1%05d";   }
+set_triglev   { out "*TL\$1%04.1f"; }
+set_exttrig   { out "*ET\$1%{0|1}"; }
+set_scale     { out "*SC\$1%02d";   }
+scale_up      { out "*SU\$1";       }
+scale_down    { out "*SD\$1";       }
+
+# commands for acquiring data
+start_acq   { wait 100;
+              out "*SS\$1001";
+              out "*VNM";
+              out "*CA\$1";
+            }
+
+stop_acq    { wait 100;
+              out "*VNP";
+              out "*CS\$1";
+}
+get_value   { out "*CV\$1";       in "\$1:%g";  }
+
+send_trigger  { out "*CV\$1"; }
+
+get_value_con { in "\$1:%g";  }
+
+get_range   { out "*RG\$1";       in ":00000%4x";
+                                  in ":00001%(\$2:\$3:MaxRange.VAL)4x";
+                                  in ":100000000";}
+probeConnection  { out "*NA\$1";       in "%40c"; }

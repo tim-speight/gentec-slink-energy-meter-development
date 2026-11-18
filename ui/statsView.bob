@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-07-10 10:57:33 by ktn98257-->
+<display version="2.0.0">
+  <name>Display</name>
+  <width>550</width>
+  <height>500</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="group" version="3.0.0">
+    <name>Statistics</name>
+    <x>24</x>
+    <y>162</y>
+    <width>457</width>
+    <height>283</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Average</text>
+      <y>66</y>
+      <width>195</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Maximum</text>
+      <y>96</y>
+      <width>195</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Minimum</text>
+      <y>126</y>
+      <width>195</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Point to Point Stability</text>
+      <y>186</y>
+      <width>195</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>Root Mean Squared</text>
+      <y>216</y>
+      <width>195</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_1</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>193</x>
+      <y>66</y>
+      <width>181</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var value = PVUtil.getDouble(pvs[0]);
+var scale = PVUtil.getDouble(pvs[1]);
+
+var scaleFactor = 1;
+
+if (scale <= 6) {
+	scaleFactor = 1000000000000;
+} else if (scale <= 12) {
+	scaleFactor = 1000000000;
+} else if (scale <= 17) {
+	scaleFactor = 1000000;
+} else if (scale <= 23) {
+	scaleFactor = 1000;
+} else if (scale <= 29) {
+	scaleFactor = 1;
+} else if (scale <= 33) {
+	scaleFactor = 0.001
+}
+
+var result = value * scaleFactor;
+
+widget.setPropertyValue("text", result.toFixed(3));]]></text>
+          <pv_name>$(EM):average</pv_name>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_2</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>193</x>
+      <y>96</y>
+      <width>181</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var value = PVUtil.getDouble(pvs[0]);
+var scale = PVUtil.getDouble(pvs[1]);
+
+var scaleFactor = 1;
+
+if (scale <= 6) {
+	scaleFactor = 1000000000000;
+} else if (scale <= 12) {
+	scaleFactor = 1000000000;
+} else if (scale <= 17) {
+	scaleFactor = 1000000;
+} else if (scale <= 23) {
+	scaleFactor = 1000;
+} else if (scale <= 29) {
+	scaleFactor = 1;
+} else if (scale <= 33) {
+	scaleFactor = 0.001
+}
+
+var result = value * scaleFactor;
+
+widget.setPropertyValue("text", result.toFixed(3));]]></text>
+          <pv_name>$(EM):max</pv_name>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_3</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>193</x>
+      <y>126</y>
+      <width>181</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var value = PVUtil.getDouble(pvs[0]);
+var scale = PVUtil.getDouble(pvs[1]);
+
+var scaleFactor = 1;
+
+if (scale <= 6) {
+	scaleFactor = 1000000000000;
+} else if (scale <= 12) {
+	scaleFactor = 1000000000;
+} else if (scale <= 17) {
+	scaleFactor = 1000000;
+} else if (scale <= 23) {
+	scaleFactor = 1000;
+} else if (scale <= 29) {
+	scaleFactor = 1;
+} else if (scale <= 33) {
+	scaleFactor = 0.001
+}
+
+var result = value * scaleFactor;
+
+widget.setPropertyValue("text", result.toFixed(3));]]></text>
+          <pv_name>$(EM):min</pv_name>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_4</name>
+      <pv_name>$(EM):p2p</pv_name>
+      <x>193</x>
+      <y>186</y>
+      <width>181</width>
+      <height>31</height>
+      <format>1</format>
+      <precision>3</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_6</name>
+      <pv_name>$(EM):rms</pv_name>
+      <x>193</x>
+      <y>216</y>
+      <width>181</width>
+      <height>31</height>
+      <format>1</format>
+      <precision>3</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_8</name>
+      <text>%</text>
+      <x>375</x>
+      <y>216</y>
+      <width>20</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_9</name>
+      <text>%</text>
+      <x>375</x>
+      <y>186</y>
+      <width>20</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Current value</text>
+      <width>195</width>
+      <height>49</height>
+      <font>
+        <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>193</x>
+      <width>181</width>
+      <height>49</height>
+      <font>
+        <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+        </font>
+      </font>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var value = PVUtil.getDouble(pvs[0]);
+var scale = PVUtil.getDouble(pvs[1]);
+
+var scaleFactor = 1;
+
+if (scale <= 6) {
+	scaleFactor = 1000000000000;
+} else if (scale <= 12) {
+	scaleFactor = 1000000000;
+} else if (scale <= 17) {
+	scaleFactor = 1000000;
+} else if (scale <= 23) {
+	scaleFactor = 1000;
+} else if (scale <= 29) {
+	scaleFactor = 1;
+} else if (scale <= 33) {
+	scaleFactor = 0.001
+}
+
+var result = value * scaleFactor;
+
+widget.setPropertyValue("text", result.toFixed(3));]]></text>
+          <pv_name>$(EM):measurement</pv_name>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Rectangle</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <y>54</y>
+      <width>430</width>
+      <height>5</height>
+      <line_width>0</line_width>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_8</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>373</x>
+      <width>45</width>
+      <height>49</height>
+      <font>
+        <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+        </font>
+      </font>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var pv0 = PVUtil.getDouble(pvs[0]);
+if(pv0>35)
+	widget.setPropertyValue("text","MJ");
+else if(pv0>29)
+	widget.setPropertyValue("text","kJ");
+else if(pv0>23)
+	widget.setPropertyValue("text","J");
+else if(pv0>17)
+	widget.setPropertyValue("text","mJ");
+else if(pv0>11)
+	widget.setPropertyValue("text","µJ");
+else if(pv0>5)
+	widget.setPropertyValue("text","nJ");
+else 
+	widget.setPropertyValue("text","pJ");]]></text>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_8</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>373</x>
+      <y>66</y>
+      <width>45</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var pv0 = PVUtil.getDouble(pvs[0]);
+if(pv0>35)
+	widget.setPropertyValue("text","MJ");
+else if(pv0>29)
+	widget.setPropertyValue("text","kJ");
+else if(pv0>23)
+	widget.setPropertyValue("text","J");
+else if(pv0>17)
+	widget.setPropertyValue("text","mJ");
+else if(pv0>11)
+	widget.setPropertyValue("text","µJ");
+else if(pv0>5)
+	widget.setPropertyValue("text","nJ");
+else 
+	widget.setPropertyValue("text","pJ");]]></text>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_8</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>373</x>
+      <y>96</y>
+      <width>45</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var pv0 = PVUtil.getDouble(pvs[0]);
+if(pv0>35)
+	widget.setPropertyValue("text","MJ");
+else if(pv0>29)
+	widget.setPropertyValue("text","kJ");
+else if(pv0>23)
+	widget.setPropertyValue("text","J");
+else if(pv0>17)
+	widget.setPropertyValue("text","mJ");
+else if(pv0>11)
+	widget.setPropertyValue("text","µJ");
+else if(pv0>5)
+	widget.setPropertyValue("text","nJ");
+else 
+	widget.setPropertyValue("text","pJ");]]></text>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_8</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>373</x>
+      <y>126</y>
+      <width>45</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var pv0 = PVUtil.getDouble(pvs[0]);
+if(pv0>35)
+	widget.setPropertyValue("text","MJ");
+else if(pv0>29)
+	widget.setPropertyValue("text","kJ");
+else if(pv0>23)
+	widget.setPropertyValue("text","J");
+else if(pv0>17)
+	widget.setPropertyValue("text","mJ");
+else if(pv0>11)
+	widget.setPropertyValue("text","µJ");
+else if(pv0>5)
+	widget.setPropertyValue("text","nJ");
+else 
+	widget.setPropertyValue("text","pJ");]]></text>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>Standard Deviation</text>
+      <y>156</y>
+      <width>195</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_5</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>193</x>
+      <y>156</y>
+      <width>181</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var value = PVUtil.getDouble(pvs[0]);
+var scale = PVUtil.getDouble(pvs[1]);
+
+var scaleFactor = 1;
+
+if (scale <= 6) {
+	scaleFactor = 1000000000000;
+} else if (scale <= 12) {
+	scaleFactor = 1000000000;
+} else if (scale <= 17) {
+	scaleFactor = 1000000;
+} else if (scale <= 23) {
+	scaleFactor = 1000;
+} else if (scale <= 29) {
+	scaleFactor = 1;
+} else if (scale <= 33) {
+	scaleFactor = 0.001
+}
+
+var result = value * scaleFactor;
+
+widget.setPropertyValue("text", result.toFixed(3));]]></text>
+          <pv_name>$(EM):std</pv_name>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Text Update_8</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <text>##.###</text>
+      <x>373</x>
+      <y>156</y>
+      <width>45</width>
+      <height>31</height>
+      <background_color>
+        <color name="Read_Background" red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <transparent>false</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <scripts>
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+var pv0 = PVUtil.getDouble(pvs[0]);
+if(pv0>35)
+	widget.setPropertyValue("text","MJ");
+else if(pv0>29)
+	widget.setPropertyValue("text","kJ");
+else if(pv0>23)
+	widget.setPropertyValue("text","J");
+else if(pv0>17)
+	widget.setPropertyValue("text","mJ");
+else if(pv0>11)
+	widget.setPropertyValue("text","µJ");
+else if(pv0>5)
+	widget.setPropertyValue("text","nJ");
+else 
+	widget.setPropertyValue("text","pJ");]]></text>
+          <pv_name>$(EM):Scale</pv_name>
+        </script>
+      </scripts>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>Controls</name>
+    <x>24</x>
+    <y>12</y>
+    <width>457</width>
+    <height>139</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button</name>
+      <actions execute_as_one="true">
+        <action type="write_pv">
+          <pv_name>$(EM):measurement.DISA</pv_name>
+          <value>0</value>
+          <description>Disable</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):editable.VAL</pv_name>
+          <value>1</value>
+          <description>editable</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):startable</pv_name>
+          <value>1</value>
+          <description>startable</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):pauseable</pv_name>
+          <value>0</value>
+          <description>pausable</description>
+        </action>
+      </actions>
+      <pv_name>$(EM):measurement</pv_name>
+      <text>Start</text>
+      <x>288</x>
+      <y>1</y>
+      <width>122</width>
+      <height>31</height>
+      <background_color>
+        <color name="OK" red="0" green="255" blue="0">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="Disable" prop_id="enabled" out_exp="false">
+          <exp bool_exp="pv0 == 1 || pv2 &gt;= pv1">
+            <value>false</value>
+          </exp>
+          <pv_name>$(EM):startable</pv_name>
+          <pv_name>$(EM):duration</pv_name>
+          <pv_name>$(EM):elapsedTime</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_1</name>
+      <actions execute_as_one="true">
+        <action type="write_pv">
+          <pv_name>$(EM):measurement.DISA</pv_name>
+          <value>1</value>
+          <description>measurementDisable</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):startable</pv_name>
+          <value>0</value>
+          <description>startable</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):pauseable</pv_name>
+          <value>1</value>
+          <description>pauseable</description>
+        </action>
+      </actions>
+      <pv_name>$(EM):measurement</pv_name>
+      <text>Pause</text>
+      <x>288</x>
+      <y>37</y>
+      <width>122</width>
+      <height>31</height>
+      <background_color>
+        <color name="ActiveText" red="255" green="255" blue="0">
+        </color>
+      </background_color>
+      <rules>
+        <rule name="Disable" prop_id="enabled" out_exp="false">
+          <exp bool_exp="pv0 == 1">
+            <value>false</value>
+          </exp>
+          <pv_name>$(EM):pauseable</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions execute_as_one="true">
+        <action type="write_pv">
+          <pv_name>$(EM):measurement.DISA</pv_name>
+          <value>1</value>
+          <description>disableMeasure</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):reset.PROC</pv_name>
+          <value>1</value>
+          <description>resetStats</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):editable</pv_name>
+          <value>0</value>
+          <description>editable</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):startable</pv_name>
+          <value>0</value>
+          <description>startable</description>
+        </action>
+        <action type="write_pv">
+          <pv_name>$(EM):pauseable</pv_name>
+          <value>1</value>
+          <description>pausable</description>
+        </action>
+      </actions>
+      <pv_name>$(EM):reset</pv_name>
+      <text>Reset</text>
+      <x>288</x>
+      <y>73</y>
+      <width>122</width>
+      <height>31</height>
+      <background_color>
+        <color name="Major" red="255" green="0" blue="0">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(EM):measurement.DISA</pv_name>
+      <bit>0</bit>
+      <x>245</x>
+      <y>76</y>
+      <width>26</width>
+      <height>26</height>
+      <off_color>
+        <color name="OK" red="0" green="255" blue="0">
+        </color>
+      </off_color>
+      <on_color>
+        <color name="Off" red="60" green="100" blue="60">
+        </color>
+      </on_color>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(EM):duration</pv_name>
+      <x>120</x>
+      <y>6</y>
+      <width>153</width>
+      <height>31</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Disable while running" prop_id="enabled" out_exp="false">
+          <exp bool_exp="pv0 == 1">
+            <value>false</value>
+          </exp>
+          <pv_name>$(EM):editable</pv_name>
+        </rule>
+        <rule name="Grey out" prop_id="background_color" out_exp="false">
+          <exp bool_exp="pv0 == 1">
+            <value>
+              <color name="Read_Background" red="240" green="240" blue="240">
+              </color>
+            </value>
+          </exp>
+          <pv_name>$(EM):editable</pv_name>
+        </rule>
+      </rules>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Max Pulse Count</text>
+      <y>6</y>
+      <width>121</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_11</name>
+      <text>Pulse Count</text>
+      <y>36</y>
+      <width>121</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_7</name>
+      <pv_name>$(EM):elapsedTime</pv_name>
+      <x>120</x>
+      <y>36</y>
+      <width>153</width>
+      <height>31</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+</display>

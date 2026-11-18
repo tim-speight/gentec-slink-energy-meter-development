@@ -1,0 +1,7 @@
+function(connection_status)
+function(getAverage)
+function(resetStats)
+function(energyStrToInt)
+function(energyIntToStr)
+
+

@@ -1,0 +1,12 @@
+record(mbbi, "$(TFL-PREFIX):OverallStatus") {
+    field(DESC, "Gentec TFLStatus")
+    field(ZRST, "Disconnected")
+    field(ZRVL, "0")
+}
+
+record(calcout, "$(TFL-PREFIX):StatusCalc"){
+    field(SCAN, "1 second") 
+    field(CALC, "((A == 0) ? 0 : 1)")
+    field(INPA, "$(device):ConnectionState PP")
+    field(OUT, "$(TFL-PREFIX):OverallStatus PP")
+}
