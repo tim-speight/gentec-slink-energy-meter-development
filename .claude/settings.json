@@ -1,0 +1,79 @@
+{
+  "extraKnownMarketplaces": {
+    "claude-ansible-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/leogallego/claude-ansible-skills.git"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "ansible-new-role@claude-ansible-skills": true,
+    "ansible-docs@claude-ansible-skills": true,
+    "ansible-good-practices@claude-ansible-skills": true,
+    "ansible-zen@claude-ansible-skills": true
+  },
+  "permissions": {
+    "deny": [
+      "Bash(ssh *)",
+      "Bash(ssh-copy-id *)",
+      "Bash(sshpass *)",
+      "Bash(scp *)",
+      "Bash(sftp *)",
+      "Bash(rsync *)",
+      "Bash(mosh *)",
+      "Bash(telnet *)",
+      "Bash(nc *)",
+      "Bash(ping *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(dig *)",
+      "Bash(nslookup *)",
+      "Bash(ansible *)",
+      "Bash(ansible-console *)",
+      "Bash(ansible-pull *)",
+      "Bash(ansible-navigator *)",
+      "Bash(ansible-runner *)",
+      "Bash(ansible-vault view *)",
+      "Bash(ansible-vault decrypt *)",
+      "Bash(ansible-vault edit *)",
+      "Bash(ansible-vault rekey *)",
+      "Bash(gh workflow run *)",
+      "Bash(gh workflow enable *)",
+      "Bash(gh run rerun *)",
+      "Bash(gh run cancel *)",
+      "mcp__ansible__ansible_navigator",
+      "mcp__github__actions_run_trigger",
+      "mcp__github__merge_pull_request",
+      "mcp__github__update_pull_request_branch",
+      "mcp__github__push_files",
+      "mcp__github__create_or_update_file",
+      "mcp__github__delete_file",
+      "mcp__github__delete_repository",
+      "mcp__github__create_repository_ruleset",
+      "mcp__github__custom_properties_write",
+      "mcp__github__assign_copilot_to_issue",
+      "mcp__github__assign_copilot_to_issue_with_intent",
+      "mcp__github__create_pull_request_with_copilot",
+      "mcp__github__request_copilot_review"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -I \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_ansible_playbook.py\"",
+            "timeout": 10,
+            "onFailure": "block",
+            "statusMessage": "Checking ansible-playbook is in a safe mode"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
