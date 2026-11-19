@@ -1,11 +1,14 @@
 #
-# Commissioned graphing range per head. Edit GS_LOW / GS_HIGH (in CalibratedValue EGU, J) at commissioning.
+# Commissioned per head:
+#   EGU            - base SI unit symbol: J (energy head) or W (power head). Case-sensitive, no prefix:
+#                    the prefix (p/n/μ/m/k/M) follows the selected range on ScaledValue/ScaleString.
+#   GS_LOW/GS_HIGH - graphing range, in CalibratedValue EGU (unprefixed base unit, J or W).
 # Note: device (DEVICE_NAME, $(PREFIX) via ansible-ioc-deployment), HEAD1 and HEAD2 are passed in from st.cmd.
 #       One row per detector port on SLINK-1 / SLINK-2. Rows are always loaded; with HEADn=NOHeadn the
 #       row creates inert $(device):NOHeadn:GS_* records whose Write*PR links do not resolve.
 
 file "db/head.template" {
-  pattern {head,       GS_LOW, GS_HIGH}
-          {"$(HEAD1)", 2,      3.5}
-          {"$(HEAD2)", 2,      3.5}
+  pattern {head,       EGU, GS_LOW, GS_HIGH}
+          {"$(HEAD1)", "J", 2,      3.5}
+          {"$(HEAD2)", "J", 2,      3.5}
 }

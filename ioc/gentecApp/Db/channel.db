@@ -5,7 +5,7 @@
 # head  - head name
 # port    - asyn port
 # channel - channel (1/2)
-# egu     - engineering unit (J/W)
+# (base unit J/W comes from $(device):$(head):BaseUnit, see head.template)
 
 ################################################################################
 # Channel Status - reads:
@@ -60,6 +60,8 @@ record(aSub, "$(device):$(head):ScaleConvert") {
     field(DESC, "Convert index to scale string")
     field(INPA, "$(device):$(head):Scale")
     field(FTA,  "LONG")
+    field(INPB, "$(device):$(head):BaseUnit")
+    field(FTB,  "STRING")
     field(FTVA, "STRING")
     field(NEVA, 1)
     field(SNAM, "energyIntToStr")
@@ -76,8 +78,11 @@ record(stringin, "$(device):$(head):ScaleString") {
 
 record(scalcout, "$(device):$(head):EguSetter"){
     field(DESC, "Unit for scale value")
+    # SI prefix from the selected range, base unit (J/W) as commissioned
+    # in head.substitutions (EGU column) via BaseUnit.
     field(INPA, "$(device):$(head):Scale CP")
-    field(CALC, "A<6?'pJ':A<12?'nJ':A<18?'μJ':A<24?'mJ':A<30?'J':A<36?'kJ':'MJ'")
+    field(INAA, "$(device):$(head):BaseUnit CP")
+    field(CALC, "(A<6?'p':A<12?'n':A<18?'μ':A<24?'m':A<30?'':A<36?'k':'M')+AA")
     field(OUT, "$(device):$(head):ScaledValue.EGU PP")
 }
 
@@ -269,7 +274,7 @@ record(stringin, "$(device):$(head):Serial")
 
 
 record(stringout, "$(device):$(head):SetScale") {
-    field(DESC, "User-set scale string (e.g. 10nJ)")
+    field(DESC, "User-set scale string (e.g. 10nJ, 1mW)")
     field(FLNK, "$(device):$(head):SetScaleStrToInt")
 }
 record(aSub, "$(device):$(head):SetScaleStrToInt") {

@@ -27,3 +27,26 @@ record(ao, "$(device):$(head):WriteHOPR") {
   field(DOL,  "$(device):$(head):GS_HIGH")
   field(OUT,  "$(device):$(head):CalibratedValue.HOPR")
 }
+
+# Commissioned base SI unit for this head (head.substitutions EGU column):
+#   J = energy head (or power head in energy mode), W = power head.
+# The S-Link *ST status does not report head type, so this is declared.
+# SI prefix (p/n/μ/m/k/M) follows the selected range, see channel.db
+# EguSetter and ScaleConvert. Value/CalibratedValue stay in base unit.
+record(stringin, "$(device):$(head):BaseUnit") {
+  field(DESC, "Commissioned base unit (J/W)")
+  field(VAL,  "$(EGU=J)")
+  field(PINI, "YES")
+  field(FLNK, "$(device):$(head):PushBaseUnit")
+}
+record(sseq, "$(device):$(head):PushBaseUnit") {
+  field(DESC, "Push base unit to EGU fields")
+  field(SELM, "All")
+  field(DOL1, "$(device):$(head):BaseUnit")
+  field(LNK1, "$(device):$(head):Value.EGU")
+  field(DOL2, "$(device):$(head):BaseUnit")
+  field(LNK2, "$(device):$(head):CalibratedValue.EGU")
+  # Re-label ScaleString (e.g. 3mJ -> 3mW) without waiting for a status poll
+  field(DO3,  "1")
+  field(LNK3, "$(device):$(head):ScaleConvert.PROC")
+}
